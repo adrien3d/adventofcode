@@ -1,4 +1,4 @@
-module github.com/adrien3d/adventofcode/2020/day1
+module github.com/adrien3d/adventofcode/2020/day2
 
 go 1.15
 
