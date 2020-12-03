@@ -8,7 +8,7 @@ import (
 
 type PasswordLine struct {
 	min, max int
-	char byte
+	char     byte
 	password string
 }
 
@@ -41,7 +41,6 @@ func day2part1(input string) {
 	}
 	utils.Log("warn", res, "lines satisfies part 1 requirements")
 }
-
 
 func day2part2(input string) {
 	res := 0
