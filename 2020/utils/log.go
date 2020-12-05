@@ -39,7 +39,7 @@ func RemoveStringFromSlice(s []string, r string) []string {
 }
 
 // FindStringInSlice allows to find a string in a slice
-func FindStringInSlice( val string, slice []string) (isFound bool) {
+func FindStringInSlice(val string, slice []string) (isFound bool) {
 	for _, item := range slice {
 		if item == val {
 			return true

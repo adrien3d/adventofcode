@@ -39,7 +39,7 @@ func day2part1(input string) {
 		}
 		//utils.Log("info", pwdLine, occurences)
 	}
-	utils.Log(true,  "warn", res, "lines satisfies part 1 requirements")
+	utils.Log(true, "warn", res, "lines satisfies part 1 requirements")
 }
 
 func day2part2(input string) {
