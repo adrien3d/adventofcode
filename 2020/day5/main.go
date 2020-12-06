@@ -68,6 +68,7 @@ func solve(input string, verbose bool) (part1TotalScore, part2TotalScore int) {
 
 	return seatIDMax, missingSeatID
 }
+
 func main() {
 	//testInput := "FBFBBFFRLR"
 	testInput := "BFFFBBFRRR\nFFFBBBFRRR\nBBFFBBFRLL"
