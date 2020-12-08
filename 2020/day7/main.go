@@ -61,14 +61,13 @@ func (b *bag) countAllChildrenBags() int {
 	return currentCount
 }
 
-
 func solve(input string, verbose bool) (part1TotalScore, part2TotalScore int) {
 	bags := parse(input, verbose)
 	for _, b := range bags {
 		if b.color == "shiny gold" {
 			part2TotalScore = b.countAllChildrenBags() - 1
 		}
-		if b.contain("shiny gold"){
+		if b.contain("shiny gold") {
 			part1TotalScore++
 		}
 	}
