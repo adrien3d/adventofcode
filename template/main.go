@@ -16,8 +16,8 @@ func solve(input string, verbose bool) (part1TotalScore, part2TotalScore int) {
 }
 
 func main() {
-	testInput := ``
-	realInput := ``
+	testInput := ""
+	realInput := ""
 	utils.Run(solve, testInput, true)
 	utils.Run(solve, realInput, true)
 }
