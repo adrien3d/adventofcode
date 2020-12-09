@@ -5,11 +5,11 @@ import (
 	"strings"
 )
 
-func solve(input string, verbose bool) (part1TotalScore, part2TotalScore int) {
+func solve(input string, v bool) (part1TotalScore, part2TotalScore int) {
 	lines := strings.Split(input, "\n")
 
 	for _, line := range lines {
-		utils.Log(verbose, "info", line)
+		utils.Log(v, "info", line)
 	}
 
 	return part1TotalScore, part2TotalScore
