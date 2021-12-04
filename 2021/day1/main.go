@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/adrien3d/adventofcode/2020/utils"
+	"github.com/adrien3d/adventofcode/utils"
 )
 
 func solvePart1(input string) (ret int) {

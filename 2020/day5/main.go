@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/adrien3d/adventofcode/2020/utils"
+	"github.com/adrien3d/adventofcode/utils"
 	"math"
 	"sort"
 	"strings"
