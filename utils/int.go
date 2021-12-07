@@ -59,3 +59,10 @@ func BinaryIntFromString(s string) (r int) {
 	}
 	return int(i)
 }
+
+func Abs(i int) int {
+	if i < 0 {
+		return -i
+	}
+	return i
+}
