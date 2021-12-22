@@ -66,3 +66,29 @@ func Abs(i int) int {
 	}
 	return i
 }
+
+func IsLowest(data []int, compare int) bool {
+	for _, elt := range data {
+		if compare > elt {
+			return false
+		}
+	}
+	return true
+}
+
+func Sign(x int) int {
+	if x < 0 {
+		return -1
+	}
+	if x > 0 {
+		return 1
+	}
+	return 0
+}
+
+func Sum(data []int) (ret int) {
+	for _, elt := range data {
+		ret += elt
+	}
+	return ret
+}
