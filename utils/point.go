@@ -12,7 +12,6 @@ var West = Point{-1, 0}
 
 var Directions = []Point{North, South, East, West}
 
-
 func (p Point) Add(p2 Point) Point {
 	return Point{p.X + p2.X, p.Y + p2.Y}
 }

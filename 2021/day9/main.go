@@ -43,18 +43,18 @@ func solve(input string, v bool) (part1TotalScore, part2TotalScore int) {
 		}
 	}
 
-	outer:
-		for k, elt := range grid {
-			for _, d := range utils.Directions {
-				if val, ok := grid[k.Add(d)]; ok {
-					if val <= elt {
-						continue outer
-					}
+outer:
+	for k, elt := range grid {
+		for _, d := range utils.Directions {
+			if val, ok := grid[k.Add(d)]; ok {
+				if val <= elt {
+					continue outer
 				}
 			}
-			part1TotalScore += elt + 1
-			lowPoints = append(lowPoints, k)
 		}
+		part1TotalScore += elt + 1
+		lowPoints = append(lowPoints, k)
+	}
 
 	sizes := make([]int, 0)
 	for _, p := range lowPoints {
