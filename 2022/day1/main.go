@@ -42,7 +42,7 @@ func solve(input string, v bool) (part1TotalScore, part2TotalScore int) {
 			}
 			top3Calories[newCalToInsert] = reinderCalorie
 		}
-		utils.Log(v, "info", top3Calories)
+		//utils.Log(v, "info", top3Calories)
 	}
 	var total int
 	for _, cal := range top3Calories {
@@ -52,7 +52,7 @@ func solve(input string, v bool) (part1TotalScore, part2TotalScore int) {
 	utils.Log(v, "info", top3Calories)
 	utils.Log(v, "info", total)
 
-	return part1TotalScore, part2TotalScore
+	return top3Calories[0], total
 }
 
 func main() {
