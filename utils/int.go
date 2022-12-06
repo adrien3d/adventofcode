@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func IntArrayContains(elts []int, elt interface{}) bool {
+func UInt8ArrayContains(elts []uint8, elt interface{}) bool {
 	for _, element := range elts {
 		if element == elt {
 			return true
