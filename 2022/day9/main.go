@@ -1,0 +1,57 @@
+package main
+
+import (
+	"fmt"
+	"github.com/adrien3d/adventofcode/utils"
+	"image"
+	"strings"
+)
+
+func abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
+}
+
+func sgn(x int) int {
+	if x < 0 {
+		return -1
+	} else if x > 0 {
+		return 1
+	}
+	return 0
+}
+
+func solve(input string, v bool) (part1TotalScore, part2TotalScore int) {
+	dirs := map[rune]image.Point{'U': {0, -1}, 'R': {1, 0}, 'D': {0, 1}, 'L': {-1, 0}}
+	rope := make([]image.Point, 10)
+
+	part1, part2 := map[image.Point]struct{}{}, map[image.Point]struct{}{}
+	for _, s := range strings.Split(strings.TrimSpace(input), "\n") {
+		var dir rune
+		var steps int
+		fmt.Sscanf(s, "%c %d", &dir, &steps)
+
+		for i := 0; i < steps; i++ {
+			rope[0] = rope[0].Add(dirs[dir])
+
+			for i := 1; i < len(rope); i++ {
+				if d := rope[i-1].Sub(rope[i]); abs(d.X) > 1 || abs(d.Y) > 1 {
+					rope[i] = rope[i].Add(image.Point{X: sgn(d.X), Y: sgn(d.Y)})
+				}
+			}
+
+			part1[rope[1]], part2[rope[len(rope)-1]] = struct{}{}, struct{}{}
+		}
+	}
+
+	return len(part1), len(part2)
+}
+
+func main() {
+	testInput := "R 4\nU 4\nL 3\nD 1\nR 4\nD 1\nL 5\nR 2"
+	realInput := "R 1\nD 1\nL 1\nD 1\nR 2\nL 1\nU 2\nD 1\nU 2\nL 1\nU 1\nL 2\nD 1\nU 2\nL 1\nR 1\nD 1\nL 2\nD 2\nL 2\nR 1\nL 2\nU 2\nR 2\nL 2\nU 2\nL 1\nD 1\nL 2\nU 1\nR 1\nD 2\nL 2\nU 1\nR 1\nD 1\nU 2\nL 1\nD 2\nU 1\nD 1\nR 2\nD 1\nL 2\nD 1\nL 1\nR 1\nD 2\nL 1\nR 2\nD 2\nU 2\nR 2\nD 2\nR 2\nL 2\nD 2\nL 2\nD 1\nU 2\nR 1\nD 2\nL 2\nR 2\nL 1\nD 1\nU 2\nD 1\nR 2\nU 2\nR 2\nD 1\nL 1\nU 2\nD 1\nU 1\nD 2\nU 1\nR 1\nU 2\nD 1\nL 2\nU 1\nL 2\nD 2\nR 1\nU 2\nL 1\nD 2\nR 1\nU 1\nD 1\nL 2\nU 1\nR 1\nD 2\nU 2\nL 1\nU 2\nD 2\nR 1\nU 2\nR 1\nU 2\nR 1\nD 2\nU 1\nD 2\nL 2\nD 2\nL 2\nD 2\nR 1\nU 1\nD 3\nU 1\nR 2\nU 3\nD 1\nU 2\nD 2\nU 2\nD 1\nU 2\nR 2\nL 2\nU 1\nL 3\nD 1\nR 3\nD 3\nR 2\nL 1\nU 3\nD 1\nU 2\nR 2\nD 1\nR 3\nD 2\nR 3\nD 1\nU 3\nL 3\nR 2\nU 3\nL 3\nU 2\nL 3\nD 1\nR 3\nU 3\nR 2\nD 1\nU 3\nR 3\nD 1\nL 2\nD 2\nL 2\nD 3\nR 2\nU 3\nL 3\nD 2\nU 3\nL 2\nU 3\nD 1\nL 1\nD 3\nR 1\nD 3\nU 1\nL 3\nU 1\nD 2\nU 1\nD 1\nU 2\nD 3\nL 1\nU 1\nR 1\nU 3\nD 3\nR 1\nL 2\nR 3\nL 3\nU 1\nD 2\nR 2\nU 2\nD 3\nU 2\nD 3\nL 1\nR 3\nD 3\nR 2\nU 3\nD 3\nL 2\nR 3\nD 3\nR 2\nL 1\nR 3\nD 2\nR 1\nD 3\nL 1\nU 1\nD 2\nR 1\nD 1\nL 1\nR 2\nL 1\nU 1\nL 2\nD 2\nL 2\nD 1\nL 2\nU 3\nD 1\nR 3\nL 2\nR 1\nL 2\nR 3\nU 2\nL 4\nR 3\nL 1\nR 2\nD 2\nL 4\nU 3\nL 1\nD 1\nL 3\nU 2\nL 3\nU 2\nL 1\nR 2\nL 3\nU 1\nD 2\nR 1\nL 4\nR 4\nL 4\nU 2\nD 2\nR 2\nL 2\nU 2\nR 1\nD 3\nL 4\nR 2\nU 1\nL 4\nR 1\nL 1\nD 4\nR 3\nD 1\nR 2\nL 2\nR 3\nL 1\nU 1\nD 3\nU 2\nR 1\nL 1\nD 3\nR 2\nU 2\nR 3\nU 2\nD 1\nR 4\nU 4\nD 3\nU 3\nR 2\nU 1\nL 1\nU 4\nD 1\nR 4\nD 4\nL 3\nU 4\nR 4\nL 1\nR 1\nU 2\nR 4\nD 2\nR 1\nU 2\nL 1\nD 1\nL 3\nR 3\nL 3\nD 3\nL 4\nD 2\nU 2\nD 3\nR 1\nU 1\nD 3\nU 1\nR 3\nD 2\nL 3\nR 2\nD 1\nL 3\nD 3\nU 3\nD 4\nL 2\nU 3\nD 5\nL 2\nD 2\nR 2\nL 3\nD 5\nU 4\nR 1\nD 5\nR 1\nD 1\nL 2\nR 4\nU 2\nD 3\nR 5\nL 2\nR 2\nD 1\nR 2\nU 5\nL 4\nU 5\nD 1\nL 2\nU 2\nR 2\nD 4\nU 3\nL 2\nD 1\nU 4\nL 4\nD 3\nL 3\nD 3\nR 1\nU 1\nR 1\nU 1\nR 2\nD 3\nR 5\nU 1\nD 2\nL 5\nU 5\nL 4\nD 4\nU 4\nL 1\nR 5\nU 2\nL 3\nU 2\nD 3\nL 5\nD 5\nL 2\nU 2\nD 4\nU 3\nD 3\nL 1\nD 2\nR 2\nD 1\nR 4\nL 3\nD 1\nU 4\nL 1\nR 2\nL 4\nD 5\nR 3\nD 1\nL 5\nD 5\nU 3\nR 2\nD 4\nL 2\nR 2\nD 3\nR 3\nU 2\nR 5\nU 4\nR 3\nL 1\nD 2\nU 1\nL 1\nR 2\nU 4\nD 4\nL 1\nR 1\nU 4\nL 3\nU 5\nR 3\nL 4\nD 3\nU 1\nR 4\nU 1\nL 1\nU 3\nR 4\nL 5\nD 1\nU 4\nR 5\nL 1\nR 4\nD 2\nL 6\nD 5\nU 5\nL 5\nR 6\nD 1\nU 2\nR 1\nU 4\nD 6\nL 6\nD 6\nU 6\nD 4\nU 4\nD 1\nU 3\nL 5\nD 6\nR 1\nL 1\nD 2\nL 4\nD 4\nL 4\nR 4\nU 2\nL 3\nD 4\nR 3\nD 4\nU 5\nR 4\nU 1\nR 6\nL 3\nR 2\nU 1\nL 1\nR 2\nD 3\nR 6\nD 6\nU 1\nD 3\nU 4\nD 5\nL 5\nU 3\nD 6\nL 5\nR 5\nU 1\nR 4\nD 2\nL 2\nR 4\nL 5\nR 4\nL 3\nD 5\nR 6\nL 6\nU 1\nR 5\nU 6\nD 2\nR 2\nD 1\nL 6\nU 4\nL 1\nR 5\nL 1\nR 2\nD 1\nL 4\nU 4\nL 1\nR 3\nU 5\nL 2\nD 6\nU 5\nR 6\nD 6\nU 3\nL 3\nU 3\nL 4\nD 5\nU 2\nD 4\nU 5\nR 6\nU 5\nD 2\nU 6\nD 3\nL 3\nD 6\nL 5\nR 2\nD 6\nR 7\nD 3\nL 7\nD 3\nU 2\nR 7\nU 2\nL 6\nR 7\nD 3\nR 7\nU 5\nR 7\nL 5\nR 7\nL 7\nU 4\nD 4\nU 1\nD 3\nU 1\nD 5\nR 3\nU 1\nD 2\nU 1\nL 4\nU 2\nL 6\nD 7\nU 1\nD 4\nU 6\nL 4\nR 4\nD 4\nR 6\nD 7\nR 1\nD 7\nL 4\nR 4\nL 1\nU 1\nR 6\nL 7\nD 7\nL 5\nU 7\nD 3\nL 6\nD 6\nU 4\nR 1\nL 2\nD 4\nR 3\nL 1\nR 7\nD 1\nL 2\nU 1\nD 2\nR 1\nU 3\nD 4\nL 3\nU 6\nL 4\nR 2\nL 1\nU 6\nD 1\nR 5\nU 2\nD 2\nL 7\nU 2\nR 5\nD 2\nR 4\nD 4\nR 3\nL 2\nR 3\nU 7\nL 5\nR 7\nU 2\nL 7\nD 3\nU 6\nD 4\nU 4\nD 6\nU 3\nL 6\nR 4\nD 2\nR 4\nD 2\nR 3\nL 5\nD 1\nU 7\nD 4\nL 4\nU 2\nD 2\nU 7\nL 5\nR 6\nU 8\nL 7\nD 2\nU 1\nR 6\nD 4\nL 4\nR 7\nD 1\nL 6\nD 7\nR 7\nU 3\nL 6\nU 1\nL 8\nD 6\nU 8\nL 7\nU 5\nD 8\nL 2\nD 3\nL 8\nU 1\nD 5\nL 4\nR 6\nD 8\nL 6\nU 5\nR 3\nU 7\nR 6\nU 3\nL 3\nD 4\nR 4\nL 2\nR 6\nD 3\nR 3\nL 8\nU 2\nD 6\nU 3\nD 8\nU 6\nD 4\nU 8\nR 7\nD 2\nU 6\nD 6\nR 1\nU 3\nD 3\nR 1\nU 3\nR 1\nD 7\nL 8\nR 8\nU 7\nR 3\nL 8\nU 2\nL 8\nD 4\nU 4\nR 1\nD 3\nR 4\nU 3\nL 7\nU 2\nR 7\nD 2\nU 4\nD 3\nL 8\nD 5\nL 3\nU 4\nD 6\nL 5\nD 2\nU 1\nR 6\nL 4\nR 6\nU 5\nR 8\nU 8\nD 7\nL 5\nD 2\nL 8\nU 2\nD 1\nR 1\nL 7\nU 4\nR 2\nU 7\nD 6\nR 6\nL 5\nU 8\nD 7\nR 8\nL 8\nD 6\nU 6\nR 1\nD 5\nL 7\nR 8\nL 4\nD 3\nL 2\nU 5\nR 9\nL 8\nD 8\nL 2\nR 4\nL 7\nR 5\nL 1\nR 8\nD 8\nL 4\nU 2\nD 7\nL 7\nD 6\nR 8\nL 3\nD 7\nU 1\nR 6\nD 6\nU 6\nL 9\nD 1\nR 7\nL 5\nR 5\nU 5\nD 4\nL 8\nU 4\nD 8\nR 4\nD 6\nU 3\nD 7\nL 5\nD 6\nR 9\nU 4\nR 6\nL 3\nU 4\nD 9\nL 7\nR 5\nD 9\nL 6\nU 7\nL 7\nR 4\nD 5\nR 7\nL 5\nR 3\nU 8\nL 6\nU 5\nL 9\nR 8\nU 4\nD 2\nL 4\nD 7\nR 7\nD 4\nL 4\nU 2\nL 3\nR 1\nD 3\nU 6\nR 1\nU 8\nR 2\nL 4\nD 3\nL 5\nU 4\nR 7\nL 2\nR 7\nL 9\nD 9\nU 5\nL 4\nU 1\nD 1\nU 6\nD 1\nL 6\nD 7\nU 5\nD 9\nR 9\nD 5\nU 9\nL 3\nR 5\nD 10\nR 1\nU 7\nD 6\nL 3\nU 5\nR 1\nD 5\nR 8\nU 3\nL 1\nD 2\nR 1\nL 6\nR 8\nD 9\nU 9\nD 4\nR 1\nU 8\nL 5\nU 4\nD 7\nL 1\nR 4\nL 6\nD 4\nR 5\nD 1\nR 10\nD 5\nR 7\nU 6\nR 5\nU 2\nL 8\nR 1\nU 3\nL 5\nU 4\nL 3\nD 3\nU 6\nD 10\nL 3\nD 7\nL 5\nD 4\nU 6\nR 9\nU 5\nD 5\nR 2\nL 7\nU 8\nD 5\nR 9\nL 6\nR 8\nU 9\nL 4\nR 10\nD 10\nL 9\nR 8\nL 4\nR 5\nL 9\nD 1\nL 3\nR 9\nU 2\nL 5\nR 2\nU 1\nR 4\nD 10\nU 3\nD 8\nL 9\nD 8\nL 5\nD 4\nU 2\nL 8\nR 5\nU 4\nD 1\nL 4\nU 7\nD 9\nR 3\nD 7\nR 9\nL 6\nR 6\nU 8\nL 10\nU 5\nD 4\nR 5\nL 6\nD 7\nL 10\nR 1\nL 9\nU 6\nD 9\nR 7\nL 7\nD 6\nU 6\nR 1\nD 7\nL 1\nR 9\nD 9\nR 3\nL 5\nD 4\nR 3\nL 5\nD 11\nU 1\nR 6\nD 8\nR 4\nD 3\nR 9\nU 3\nD 8\nU 7\nR 2\nU 10\nR 4\nL 4\nD 10\nR 8\nU 11\nR 7\nD 7\nR 9\nD 11\nU 6\nR 7\nD 10\nL 4\nD 5\nL 7\nD 3\nL 4\nD 4\nU 4\nR 3\nL 9\nD 4\nL 8\nU 5\nR 7\nL 2\nD 4\nR 11\nU 10\nD 3\nR 8\nD 3\nR 10\nL 8\nU 6\nR 4\nD 10\nR 7\nD 3\nR 2\nU 1\nD 5\nL 8\nU 2\nR 1\nU 8\nR 11\nL 3\nU 10\nL 5\nD 3\nL 6\nU 10\nL 11\nD 4\nL 5\nD 1\nL 4\nD 1\nL 3\nR 7\nU 7\nR 4\nL 1\nU 10\nD 11\nL 1\nR 1\nU 9\nD 6\nL 9\nD 1\nL 4\nD 11\nL 5\nU 2\nL 5\nD 8\nU 10\nD 5\nU 10\nL 8\nR 11\nD 10\nU 11\nR 4\nU 6\nD 11\nR 1\nL 4\nU 12\nL 8\nU 12\nD 4\nL 7\nU 7\nL 8\nD 3\nU 1\nL 12\nD 5\nU 3\nD 6\nR 7\nU 1\nD 12\nR 6\nU 3\nD 3\nR 12\nU 5\nR 3\nU 8\nL 6\nR 6\nU 3\nL 4\nD 8\nL 5\nD 12\nU 1\nL 9\nR 4\nL 1\nD 6\nU 9\nL 5\nR 3\nL 9\nD 8\nR 6\nD 3\nU 6\nL 1\nD 7\nU 5\nD 1\nL 11\nR 7\nD 11\nL 3\nU 6\nR 9\nD 12\nR 11\nL 5\nR 8\nL 2\nU 10\nR 6\nU 10\nL 9\nU 1\nL 1\nR 8\nL 7\nR 3\nU 4\nL 3\nR 8\nL 9\nR 11\nL 9\nD 11\nU 1\nL 12\nR 6\nL 3\nR 3\nD 12\nU 9\nL 9\nD 8\nR 4\nL 7\nR 1\nU 2\nR 4\nU 4\nR 11\nU 7\nD 11\nU 3\nD 6\nU 7\nL 2\nD 4\nU 9\nR 3\nL 8\nR 9\nL 4\nR 5\nL 7\nD 3\nR 8\nL 6\nU 10\nR 3\nL 6\nD 8\nU 3\nD 9\nL 1\nU 13\nR 12\nL 13\nR 2\nU 8\nR 1\nD 11\nR 5\nL 4\nU 5\nL 3\nD 13\nU 2\nD 1\nU 2\nL 9\nD 3\nR 6\nU 13\nL 3\nU 5\nR 2\nD 2\nL 5\nU 4\nR 6\nD 1\nU 9\nL 7\nR 11\nU 10\nD 12\nR 10\nU 7\nR 5\nL 2\nR 13\nL 13\nD 3\nR 7\nU 1\nL 1\nD 2\nL 9\nU 12\nD 7\nU 13\nL 12\nU 13\nD 7\nU 7\nD 8\nL 2\nU 6\nD 2\nU 6\nL 8\nU 4\nD 11\nU 11\nL 11\nR 10\nL 10\nR 6\nD 13\nU 2\nL 7\nU 8\nD 1\nR 6\nL 7\nR 9\nL 8\nR 9\nL 6\nR 7\nD 12\nR 11\nL 8\nR 1\nD 5\nR 5\nL 10\nU 6\nL 8\nD 9\nL 5\nU 4\nD 12\nU 8\nL 13\nU 6\nD 10\nR 5\nL 13\nD 7\nL 13\nR 5\nL 10\nD 13\nL 9\nR 3\nD 8\nU 9\nD 10\nU 10\nD 7\nL 5\nR 5\nD 9\nL 7\nR 10\nD 13\nR 1\nU 2\nR 6\nU 14\nR 10\nD 6\nU 13\nD 14\nU 5\nD 1\nU 8\nR 4\nU 9\nR 13\nL 4\nD 2\nR 8\nU 2\nD 12\nU 3\nR 6\nU 6\nD 11\nR 7\nL 12\nR 9\nU 7\nD 1\nR 14\nL 11\nU 4\nD 13\nU 5\nL 7\nR 14\nL 1\nU 6\nD 3\nL 1\nU 13\nD 8\nU 14\nD 5\nU 14\nL 1\nR 1\nD 5\nU 7\nL 8\nR 6\nU 1\nD 2\nR 14\nU 13\nL 10\nU 8\nD 13\nU 6\nR 2\nD 4\nR 6\nU 7\nD 10\nL 6\nU 5\nL 3\nD 9\nU 13\nD 8\nU 3\nR 3\nL 12\nD 5\nR 8\nU 7\nR 11\nU 6\nD 7\nR 13\nU 1\nD 9\nU 10\nD 3\nL 5\nR 12\nL 4\nD 13\nR 7\nD 12\nR 11\nD 9\nR 5\nU 13\nR 3\nD 4\nU 10\nR 3\nU 6\nL 4\nR 1\nU 4\nL 9\nD 11\nU 5\nD 3\nU 13\nD 1\nL 1\nD 13\nL 2\nR 9\nL 4\nR 2\nU 9\nD 9\nU 12\nL 14\nR 2\nL 9\nR 5\nU 2\nD 3\nR 13\nU 5\nD 1\nU 15\nR 6\nD 14\nR 8\nL 9\nD 14\nL 6\nR 8\nU 14\nR 11\nL 3\nD 15\nU 5\nR 1\nL 7\nR 12\nD 1\nR 4\nD 13\nU 9\nD 2\nL 3\nU 10\nR 10\nD 2\nR 6\nU 13\nD 7\nR 5\nU 5\nL 12\nU 6\nR 1\nL 7\nU 9\nD 15\nL 8\nU 9\nL 5\nR 3\nL 9\nU 6\nL 11\nD 8\nL 11\nD 13\nU 3\nR 6\nD 2\nL 10\nR 15\nU 2\nD 8\nR 6\nD 6\nL 8\nD 7\nU 2\nD 14\nU 4\nR 6\nD 15\nL 12\nR 4\nD 3\nU 7\nD 10\nL 8\nU 7\nR 10\nU 11\nD 2\nR 10\nD 10\nU 13\nR 8\nL 2\nU 12\nR 9\nU 12\nR 5\nU 10\nL 6\nR 3\nD 10\nL 10\nU 6\nL 4\nR 3\nD 9\nR 15\nD 14\nL 11\nR 5\nU 2\nR 14\nL 15\nR 3\nD 3\nL 4\nU 10\nD 14\nL 9\nD 5\nL 16\nU 12\nL 4\nD 15\nL 10\nR 14\nD 4\nR 12\nL 7\nU 5\nR 3\nL 6\nU 16\nL 5\nU 8\nD 8\nL 6\nD 3\nU 14\nR 1\nL 13\nU 4\nD 11\nR 5\nL 11\nD 7\nR 1\nL 14\nU 10\nL 5\nD 15\nU 14\nL 4\nD 7\nU 3\nR 1\nU 2\nR 3\nD 16\nU 7\nR 7\nD 13\nR 7\nD 5\nU 7\nR 16\nU 4\nL 3\nR 9\nU 1\nD 2\nR 5\nD 3\nU 8\nR 5\nL 13\nU 13\nL 2\nR 9\nL 14\nD 10\nR 1\nU 1\nR 14\nU 14\nR 2\nL 1\nR 12\nL 1\nD 6\nR 2\nD 7\nR 11\nL 5\nD 8\nR 15\nD 12\nR 12\nL 8\nD 10\nR 2\nD 12\nU 15\nL 9\nD 4\nU 3\nL 8\nD 3\nU 9\nD 16\nL 2\nU 14\nR 15\nD 14\nU 12\nD 6\nU 14\nR 11\nD 12\nR 2\nU 13\nL 2\nR 1\nD 6\nU 13\nD 15\nU 1\nR 14\nL 16\nD 8\nR 13\nL 14\nR 3\nD 8\nL 6\nR 16\nD 6\nL 13\nR 2\nL 11\nD 2\nU 1\nR 15\nL 9\nU 1\nR 12\nL 9\nD 7\nL 8\nU 2\nL 14\nR 7\nU 8\nD 15\nR 8\nD 13\nL 15\nR 11\nD 17\nU 2\nR 14\nL 9\nU 11\nD 6\nU 4\nD 8\nU 16\nD 5\nL 3\nD 11\nL 7\nU 11\nL 4\nD 5\nL 5\nD 2\nU 8\nR 17\nD 17\nU 12\nR 4\nL 13\nR 15\nL 10\nU 2\nL 10\nR 6\nD 1\nU 6\nL 3\nD 8\nR 4\nD 1\nL 4\nD 13\nR 1\nU 3\nL 1\nU 9\nD 13\nU 2\nD 13\nR 6\nD 8\nR 6\nD 13\nR 4\nD 10\nL 10\nU 8\nD 1\nR 6\nU 14\nR 3\nL 10\nU 15\nL 11\nU 13\nL 4\nU 5\nL 16\nR 16\nU 11\nR 14\nD 7\nU 5\nR 9\nL 5\nU 12\nR 16\nU 10\nD 5\nR 17\nL 3\nD 5\nU 13\nR 3\nU 3\nL 14\nU 1\nL 8\nR 2\nD 3\nU 9\nD 7\nL 1\nD 5\nR 16\nD 12\nR 1\nU 2\nL 16\nU 3\nR 18\nD 11\nR 3\nL 17\nR 7\nL 6\nD 13\nL 5\nR 12\nD 3\nU 1\nL 1\nU 5\nL 8\nR 11\nL 13\nD 14\nR 17\nD 17\nL 2\nU 7\nD 18\nR 3\nD 2\nU 6\nD 9\nR 3\nU 3\nR 5\nD 16\nR 9\nD 13\nU 8\nD 17\nR 4\nL 6\nR 7\nD 2\nR 15\nU 10\nR 15\nD 6\nL 8\nR 17\nD 5\nL 9\nU 18\nD 10\nU 3\nL 6\nU 10\nD 10\nU 16\nR 6\nD 18\nU 10\nD 8\nU 14\nR 3\nU 14\nL 16\nR 3\nD 5\nL 2\nR 4\nD 9\nL 13\nR 17\nL 8\nD 2\nR 16\nD 18\nL 11\nD 15\nU 5\nD 7\nU 14\nD 13\nU 7\nL 13\nD 13\nR 1\nD 15\nR 11\nL 1\nU 6\nD 14\nL 6\nU 8\nD 15\nR 8\nL 12\nD 17\nR 8\nL 17\nD 16\nR 9\nD 19\nU 4\nR 9\nU 10\nL 3\nU 3\nD 5\nR 2\nU 6\nL 16\nD 8\nR 4\nL 16\nR 15\nU 6\nL 8\nD 6\nL 6\nR 1\nL 8\nD 13\nL 1\nU 7\nR 16\nL 16\nU 1\nL 18\nD 16\nL 8\nU 2\nD 1\nR 2\nD 10\nU 8\nD 2\nR 18\nU 14\nD 15\nR 15\nU 3\nD 1\nU 17\nL 17\nD 15\nL 14\nR 6\nL 18\nU 19\nL 6\nU 17\nL 1\nD 2\nU 17\nR 11\nL 3\nR 3\nL 12\nU 1\nL 9\nU 13\nD 15\nU 12\nR 1\nL 5\nD 17\nL 14\nD 13\nL 2\nD 10\nU 5\nR 13\nL 19\nD 1\nR 12\nU 17\nR 15\nD 19\nU 12\nD 16\nR 2\nU 3\nR 15\nL 13\nU 11\nD 19\nR 10\nD 19\nL 2\nU 12\nR 5\nL 13\nU 13\nR 1\nD 11\nR 17\nD 7\nU 4\nD 14\nL 13\nR 8\nL 8\nD 8\n"
+	utils.Run(solve, testInput, true)
+	utils.Run(solve, realInput, true)
+}
